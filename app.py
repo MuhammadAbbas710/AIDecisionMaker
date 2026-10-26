@@ -14,8 +14,22 @@ import time
 from typing import Any
 
 import streamlit as st
-from google import genai
-from google.genai import types
+
+try:
+    from google import genai
+    from google.genai import types
+except ImportError:  # the google-genai package is not installed in this environment
+    st.set_page_config(page_title="AI Decision Helper", page_icon="🧭")
+    st.error("The `google-genai` package is not installed, so the app cannot start.")
+    st.markdown(
+        "**How to fix it**\n"
+        "1. Make sure a file named exactly `requirements.txt` is in the **root** of your GitHub "
+        "repo, next to `app.py` (not inside a sub-folder).\n"
+        "2. It must contain the lines `streamlit` and `google-genai`.\n"
+        "3. Commit and push, then open **Manage app → Reboot app** on Streamlit Community Cloud.\n"
+        "4. Running locally? Run `pip install -r requirements.txt`."
+    )
+    st.stop()
 
 # ----------------------------------------------------------------------------
 # Configuration
